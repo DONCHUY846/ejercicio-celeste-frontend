@@ -12,8 +12,6 @@
     "check": "prettier --write . && eslint --fix"
   },
   "dependencies": {
-    "@clerk/clerk-react": "^5.49.0",
-    "@faker-js/faker": "^10.0.0",
     "@tailwindcss/vite": "^4.0.6",
     "@tanstack/match-sorter-utils": "^8.19.4",
     "@tanstack/react-devtools": "^0.7.0",

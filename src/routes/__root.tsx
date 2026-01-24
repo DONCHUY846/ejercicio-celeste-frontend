@@ -6,11 +6,11 @@ import {
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
-import Header from '../components/Header'
+import MainLayout from '../layouts/MainLayout'
 
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 
-import appCss from '../styles.css?url'
+import appCss from '../assets/styles.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
 import { getLocale } from '@/paraglide/runtime'
@@ -59,8 +59,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <Header />
-        {children}
+        <MainLayout>{children}</MainLayout>
         <TanStackDevtools
           config={{
             position: 'bottom-right',

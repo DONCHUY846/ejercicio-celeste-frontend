@@ -1,8 +1,7 @@
 import { Link } from '@tanstack/react-router'
-
 import { useState } from 'react'
 import { Home, Menu, X } from 'lucide-react'
-import ParaglideLocaleSwitcher from './LocaleSwitcher.tsx'
+import ParaglideLocaleSwitcher from '../core/ui/LocaleSwitcher'
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)

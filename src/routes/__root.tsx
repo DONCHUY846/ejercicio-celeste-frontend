@@ -6,8 +6,6 @@ import {
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
-import MainLayout from '../layouts/MainLayout'
-
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 
 import appCss from '../assets/styles.css?url'
@@ -59,7 +57,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <MainLayout>{children}</MainLayout>
+        {children}
         <TanStackDevtools
           config={{
             position: 'bottom-right',

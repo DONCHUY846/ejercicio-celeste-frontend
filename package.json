@@ -14,6 +14,9 @@
   "dependencies": {
     "@clerk/clerk-react": "^5.49.0",
     "@faker-js/faker": "^10.0.0",
+    "@radix-ui/react-avatar": "^1.1.11",
+    "@radix-ui/react-separator": "^1.1.8",
+    "@radix-ui/react-slot": "^1.2.4",
     "@tailwindcss/vite": "^4.0.6",
     "@tanstack/match-sorter-utils": "^8.19.4",
     "@tanstack/react-devtools": "^0.7.0",

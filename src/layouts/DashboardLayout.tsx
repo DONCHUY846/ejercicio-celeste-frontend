@@ -1,19 +1,28 @@
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from '@tanstack/react-router'
 import { Sidebar } from './Sidebar'
+import { useAuth } from '@/features/auth/context/auth-context'
 
 export const DashboardLayout = () => {
   const navigate = useNavigate()
-  const isAuthenticated = !!localStorage.getItem('token')
+  const { isAuthenticated, isLoading } = useAuth()
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isLoading && !isAuthenticated) {
       navigate({ to: '/login' })
     }
-  }, [isAuthenticated, navigate])
+  }, [isAuthenticated, isLoading, navigate])
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Cargando...
+      </div>
+    )
+  }
 
   if (!isAuthenticated) {
-    return null // Or a loading spinner while redirecting
+    return null
   }
 
   return (

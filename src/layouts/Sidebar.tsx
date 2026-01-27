@@ -1,6 +1,7 @@
 import {
   BarChart,
   Box,
+  Calendar,
   CheckSquare,
   Folder,
   HelpCircle,
@@ -12,23 +13,20 @@ import {
 import { Link, useNavigate } from '@tanstack/react-router'
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar'
 import { Button } from '../components/ui/button'
+import { useAuth } from '@/features/auth/context/auth-context'
 
 export const Sidebar = () => {
   const navigate = useNavigate()
+  const { user, logout } = useAuth()
 
   const handleLogout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
+    logout()
     navigate({ to: '/login' })
   }
 
-  const userStr = localStorage.getItem('user')
-  const user = userStr
-    ? JSON.parse(userStr)
-    : { persona: { nombre: 'Jesús', apellido_p: 'Aviña Alcala' } }
-  const userName = user.persona
+  const userName = user?.persona
     ? `${user.persona.nombre} ${user.persona.apellido_p}`
-    : 'Jesús Aviña Alcala'
+    : 'Usuario'
 
   return (
     <aside className="w-64 h-screen bg-white border-r border-gray-200 flex flex-col flex-shrink-0">
@@ -67,6 +65,17 @@ export const Sidebar = () => {
             >
               <LayoutDashboard size={20} />
               Dashboard
+            </Link>
+            <Link
+              to="/events"
+              activeProps={{ className: 'bg-teal-50 text-teal-600' }}
+              inactiveProps={{
+                className: 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+              }}
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors"
+            >
+              <Calendar size={20} />
+              Eventos
             </Link>
             <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors">
               <Folder size={20} />

@@ -12,6 +12,7 @@ import appCss from '../assets/styles.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
 import { getLocale } from '@/paraglide/runtime'
+import { AuthProvider } from '@/features/auth/context/auth-context'
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -57,7 +58,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        {children}
+        <AuthProvider>{children}</AuthProvider>
         <TanStackDevtools
           config={{
             position: 'bottom-right',

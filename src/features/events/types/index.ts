@@ -31,3 +31,9 @@ export interface VoteResponse {
     stats: Stats
   }
 }
+
+export interface CreateEventPayload {
+  fecha: string
+  descripcion: string
+  preguntas: Array<string>
+}

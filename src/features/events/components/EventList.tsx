@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { Calendar, ChevronRight } from 'lucide-react'
 import { useEvents } from '../hooks/useEvents'
+import { CreateEventModal } from './CreateEventModal'
 
 export const EventList = () => {
   const { data: events, isLoading, error } = useEvents()
@@ -23,12 +24,16 @@ export const EventList = () => {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-900">Próximos Eventos</h2>
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-gray-900">Próximos Eventos</h2>
+        <CreateEventModal />
+      </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {events?.map((event) => (
           <Link
             key={event.id}
-            to={`/events/${event.id}`}
+            to="/events/$eventId"
+            params={{ eventId: event.id.toString() }}
             className="group block overflow-hidden rounded-xl bg-white shadow-sm transition-all hover:shadow-md border border-gray-100"
           >
             <div className="p-6">

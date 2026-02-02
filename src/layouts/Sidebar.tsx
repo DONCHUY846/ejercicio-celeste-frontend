@@ -13,6 +13,7 @@ import {
 import { Link, useNavigate } from '@tanstack/react-router'
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar'
 import { Button } from '../components/ui/button'
+import { NotificationBadge } from '@/features/notifications/components/NotificationBadge'
 import { useAuth } from '@/features/auth/context/auth-context'
 
 export const Sidebar = () => {
@@ -32,18 +33,23 @@ export const Sidebar = () => {
     <aside className="w-64 h-screen bg-white border-r border-gray-200 flex flex-col flex-shrink-0">
       {/* Header */}
       <div className="p-6">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-teal-400 rounded-lg flex items-center justify-center text-white shadow-sm">
-            <Box size={24} strokeWidth={2.5} />
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-teal-400 rounded-lg flex items-center justify-center text-white shadow-sm">
+              <Box size={24} strokeWidth={2.5} />
+            </div>
+            <div className="flex flex-col">
+              <span className="font-bold text-gray-900 leading-none">
+                CHUY PIPAS
+              </span>
+              <span className="text-[10px] font-medium text-gray-500 mt-1 tracking-wide">
+                WORKSPACE V1
+              </span>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <span className="font-bold text-gray-900 leading-none">
-              CHUY PIPAS
-            </span>
-            <span className="text-[10px] font-medium text-gray-500 mt-1 tracking-wide">
-              WORKSPACE V1
-            </span>
-          </div>
+        </div>
+        <div className="flex items-center justify-between">
+          <NotificationBadge />
         </div>
       </div>
 

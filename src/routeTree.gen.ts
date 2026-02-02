@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as ProtectedIndexRouteImport } from './routes/_protected.index'
+import { Route as ProtectedNotificationsIndexRouteImport } from './routes/_protected.notifications.index'
 import { Route as ProtectedEventsIndexRouteImport } from './routes/_protected.events.index'
 import { Route as ProtectedEventsEventIdRouteImport } from './routes/_protected.events.$eventId'
 
@@ -29,6 +30,12 @@ const ProtectedIndexRoute = ProtectedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ProtectedRoute,
 } as any)
+const ProtectedNotificationsIndexRoute =
+  ProtectedNotificationsIndexRouteImport.update({
+    id: '/notifications/',
+    path: '/notifications/',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
 const ProtectedEventsIndexRoute = ProtectedEventsIndexRouteImport.update({
   id: '/events/',
   path: '/events/',
@@ -45,12 +52,14 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/events/$eventId': typeof ProtectedEventsEventIdRoute
   '/events/': typeof ProtectedEventsIndexRoute
+  '/notifications/': typeof ProtectedNotificationsIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/': typeof ProtectedIndexRoute
   '/events/$eventId': typeof ProtectedEventsEventIdRoute
   '/events': typeof ProtectedEventsIndexRoute
+  '/notifications': typeof ProtectedNotificationsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -59,12 +68,18 @@ export interface FileRoutesById {
   '/_protected/': typeof ProtectedIndexRoute
   '/_protected/events/$eventId': typeof ProtectedEventsEventIdRoute
   '/_protected/events/': typeof ProtectedEventsIndexRoute
+  '/_protected/notifications/': typeof ProtectedNotificationsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/events/$eventId' | '/events/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/events/$eventId'
+    | '/events/'
+    | '/notifications/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/' | '/events/$eventId' | '/events'
+  to: '/login' | '/' | '/events/$eventId' | '/events' | '/notifications'
   id:
     | '__root__'
     | '/_protected'
@@ -72,6 +87,7 @@ export interface FileRouteTypes {
     | '/_protected/'
     | '/_protected/events/$eventId'
     | '/_protected/events/'
+    | '/_protected/notifications/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -102,6 +118,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/notifications/': {
+      id: '/_protected/notifications/'
+      path: '/notifications'
+      fullPath: '/notifications/'
+      preLoaderRoute: typeof ProtectedNotificationsIndexRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
     '/_protected/events/': {
       id: '/_protected/events/'
       path: '/events'
@@ -123,12 +146,14 @@ interface ProtectedRouteChildren {
   ProtectedIndexRoute: typeof ProtectedIndexRoute
   ProtectedEventsEventIdRoute: typeof ProtectedEventsEventIdRoute
   ProtectedEventsIndexRoute: typeof ProtectedEventsIndexRoute
+  ProtectedNotificationsIndexRoute: typeof ProtectedNotificationsIndexRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedIndexRoute: ProtectedIndexRoute,
   ProtectedEventsEventIdRoute: ProtectedEventsEventIdRoute,
   ProtectedEventsIndexRoute: ProtectedEventsIndexRoute,
+  ProtectedNotificationsIndexRoute: ProtectedNotificationsIndexRoute,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(

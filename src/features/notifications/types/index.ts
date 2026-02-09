@@ -14,4 +14,8 @@ export interface Notification {
   read_at: string | null
   created_at: string
   updated_at: string
+  // Propiedades opcionales planas para eventos de broadcast directo
+  title?: string
+  message?: string
+  route_path?: string
 }

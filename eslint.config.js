@@ -7,4 +7,9 @@ export default [
   {
     ignores: ['src/paraglide/**', 'src/routeTree.gen.ts'],
   },
+  {
+    rules: {
+      'no-console': 'error',
+    },
+  },
 ]

@@ -81,8 +81,6 @@ export const EventDetail = ({ eventId }: { eventId: string }) => {
     const channel = echo.channel(`surveys.${eventId}`)
 
     channel.listen('SurveyVoted', (e: any) => {
-      console.log('Event received:', e)
-
       queryClient.setQueryData(
         ['events', eventId],
         (oldData: Evento | undefined) => {

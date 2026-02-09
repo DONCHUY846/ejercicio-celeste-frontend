@@ -76,7 +76,6 @@ export function CreateEventModal() {
       setOpen(false)
       toast.success('Evento creado con éxito')
     } catch (error) {
-      console.error('Error creating event', error)
       toast.error('Error al crear el evento')
     }
   }

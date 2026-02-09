@@ -31,7 +31,7 @@ if (typeof window !== 'undefined') {
           socketId: string,
           callback: (error: any, data: any) => void,
         ) => {
-          fetch('http://localhost:8000/api/broadcasting/auth', {
+          fetch('http://localhost:8000/broadcasting/auth', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

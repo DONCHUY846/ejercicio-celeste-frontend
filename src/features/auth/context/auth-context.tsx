@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { loginWithEmail } from '../api/login'
-import type { LoginCredentials, User } from '../types'
+import { registerWithEmail } from '../api/register'
+import type { LoginCredentials, RegisterCredentials, User } from '../types'
 
 interface AuthContextType {
   user: User | null
@@ -8,6 +9,7 @@ interface AuthContextType {
   isAuthenticated: boolean
   isLoading: boolean
   login: (credentials: LoginCredentials) => Promise<void>
+  register: (credentials: RegisterCredentials) => Promise<void>
   logout: () => void
 }
 
@@ -46,6 +48,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }
 
+  const register = async (credentials: RegisterCredentials) => {
+    await registerWithEmail(credentials)
+    // No login here, user must verify email first
+  }
+
   const logout = () => {
     setToken(null)
     setUser(null)
@@ -61,6 +68,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     isAuthenticated: !!token,
     isLoading,
     login,
+    register,
     logout,
   }
 

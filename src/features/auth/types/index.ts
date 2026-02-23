@@ -23,3 +23,17 @@ export interface LoginCredentials {
   email: string
   password: string
 }
+
+export interface RegisterCredentials {
+  nombre: string
+  apellido_p: string
+  apellido_m?: string
+  celular: string
+  email: string
+  password: string
+}
+
+export interface RegisterResponse {
+  message: string
+  user: User
+}

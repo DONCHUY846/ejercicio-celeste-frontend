@@ -9,16 +9,34 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as EmailVerifiedRouteImport } from './routes/email-verified'
+import { Route as CheckEmailRouteImport } from './routes/check-email'
 import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as ProtectedIndexRouteImport } from './routes/_protected.index'
 import { Route as ProtectedNotificationsIndexRouteImport } from './routes/_protected.notifications.index'
 import { Route as ProtectedEventsIndexRouteImport } from './routes/_protected.events.index'
 import { Route as ProtectedEventsEventIdRouteImport } from './routes/_protected.events.$eventId'
 
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmailVerifiedRoute = EmailVerifiedRouteImport.update({
+  id: '/email-verified',
+  path: '/email-verified',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckEmailRoute = CheckEmailRouteImport.update({
+  id: '/check-email',
+  path: '/check-email',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProtectedRoute = ProtectedRouteImport.update({
@@ -49,13 +67,19 @@ const ProtectedEventsEventIdRoute = ProtectedEventsEventIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof ProtectedIndexRoute
+  '/check-email': typeof CheckEmailRoute
+  '/email-verified': typeof EmailVerifiedRoute
   '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/events/$eventId': typeof ProtectedEventsEventIdRoute
   '/events/': typeof ProtectedEventsIndexRoute
   '/notifications/': typeof ProtectedNotificationsIndexRoute
 }
 export interface FileRoutesByTo {
+  '/check-email': typeof CheckEmailRoute
+  '/email-verified': typeof EmailVerifiedRoute
   '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/': typeof ProtectedIndexRoute
   '/events/$eventId': typeof ProtectedEventsEventIdRoute
   '/events': typeof ProtectedEventsIndexRoute
@@ -64,7 +88,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_protected': typeof ProtectedRouteWithChildren
+  '/check-email': typeof CheckEmailRoute
+  '/email-verified': typeof EmailVerifiedRoute
   '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/_protected/': typeof ProtectedIndexRoute
   '/_protected/events/$eventId': typeof ProtectedEventsEventIdRoute
   '/_protected/events/': typeof ProtectedEventsIndexRoute
@@ -74,16 +101,30 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/check-email'
+    | '/email-verified'
     | '/login'
+    | '/register'
     | '/events/$eventId'
     | '/events/'
     | '/notifications/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/' | '/events/$eventId' | '/events' | '/notifications'
+  to:
+    | '/check-email'
+    | '/email-verified'
+    | '/login'
+    | '/register'
+    | '/'
+    | '/events/$eventId'
+    | '/events'
+    | '/notifications'
   id:
     | '__root__'
     | '/_protected'
+    | '/check-email'
+    | '/email-verified'
     | '/login'
+    | '/register'
     | '/_protected/'
     | '/_protected/events/$eventId'
     | '/_protected/events/'
@@ -92,16 +133,40 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   ProtectedRoute: typeof ProtectedRouteWithChildren
+  CheckEmailRoute: typeof CheckEmailRoute
+  EmailVerifiedRoute: typeof EmailVerifiedRoute
   LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/email-verified': {
+      id: '/email-verified'
+      path: '/email-verified'
+      fullPath: '/email-verified'
+      preLoaderRoute: typeof EmailVerifiedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/check-email': {
+      id: '/check-email'
+      path: '/check-email'
+      fullPath: '/check-email'
+      preLoaderRoute: typeof CheckEmailRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_protected': {
@@ -162,7 +227,10 @@ const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   ProtectedRoute: ProtectedRouteWithChildren,
+  CheckEmailRoute: CheckEmailRoute,
+  EmailVerifiedRoute: EmailVerifiedRoute,
   LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

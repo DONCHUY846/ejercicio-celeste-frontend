@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   BarChart,
   Box,
@@ -15,10 +16,12 @@ import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar'
 import { Button } from '../components/ui/button'
 import { NotificationBadge } from '@/features/notifications/components/NotificationBadge'
 import { useAuth } from '@/features/auth/context/auth-context'
+import { ChangePasswordModal } from '@/features/auth/components/ChangePasswordModal'
 
 export const Sidebar = () => {
   const navigate = useNavigate()
   const { user, logout } = useAuth()
+  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false)
 
   const handleLogout = () => {
     logout()
@@ -108,7 +111,10 @@ export const Sidebar = () => {
             Support
           </h3>
           <nav className="space-y-1">
-            <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors">
+            <button
+              onClick={() => setIsChangePasswordOpen(true)}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+            >
               <Settings size={20} />
               Settings
             </button>
@@ -119,6 +125,11 @@ export const Sidebar = () => {
           </nav>
         </div>
       </div>
+
+      <ChangePasswordModal
+        open={isChangePasswordOpen}
+        onOpenChange={setIsChangePasswordOpen}
+      />
 
       {/* Footer / User Profile */}
       <div className="p-4 border-t border-gray-100">

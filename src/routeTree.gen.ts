@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as RecoveryPasswordRouteImport } from './routes/recovery-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as EmailVerifiedRouteImport } from './routes/email-verified'
 import { Route as CheckEmailRouteImport } from './routes/check-email'
@@ -22,6 +23,11 @@ import { Route as ProtectedEventsEventIdRouteImport } from './routes/_protected.
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecoveryPasswordRoute = RecoveryPasswordRouteImport.update({
+  id: '/recovery-password',
+  path: '/recovery-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -70,6 +76,7 @@ export interface FileRoutesByFullPath {
   '/check-email': typeof CheckEmailRoute
   '/email-verified': typeof EmailVerifiedRoute
   '/login': typeof LoginRoute
+  '/recovery-password': typeof RecoveryPasswordRoute
   '/register': typeof RegisterRoute
   '/events/$eventId': typeof ProtectedEventsEventIdRoute
   '/events/': typeof ProtectedEventsIndexRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByTo {
   '/check-email': typeof CheckEmailRoute
   '/email-verified': typeof EmailVerifiedRoute
   '/login': typeof LoginRoute
+  '/recovery-password': typeof RecoveryPasswordRoute
   '/register': typeof RegisterRoute
   '/': typeof ProtectedIndexRoute
   '/events/$eventId': typeof ProtectedEventsEventIdRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   '/check-email': typeof CheckEmailRoute
   '/email-verified': typeof EmailVerifiedRoute
   '/login': typeof LoginRoute
+  '/recovery-password': typeof RecoveryPasswordRoute
   '/register': typeof RegisterRoute
   '/_protected/': typeof ProtectedIndexRoute
   '/_protected/events/$eventId': typeof ProtectedEventsEventIdRoute
@@ -104,6 +113,7 @@ export interface FileRouteTypes {
     | '/check-email'
     | '/email-verified'
     | '/login'
+    | '/recovery-password'
     | '/register'
     | '/events/$eventId'
     | '/events/'
@@ -113,6 +123,7 @@ export interface FileRouteTypes {
     | '/check-email'
     | '/email-verified'
     | '/login'
+    | '/recovery-password'
     | '/register'
     | '/'
     | '/events/$eventId'
@@ -124,6 +135,7 @@ export interface FileRouteTypes {
     | '/check-email'
     | '/email-verified'
     | '/login'
+    | '/recovery-password'
     | '/register'
     | '/_protected/'
     | '/_protected/events/$eventId'
@@ -136,6 +148,7 @@ export interface RootRouteChildren {
   CheckEmailRoute: typeof CheckEmailRoute
   EmailVerifiedRoute: typeof EmailVerifiedRoute
   LoginRoute: typeof LoginRoute
+  RecoveryPasswordRoute: typeof RecoveryPasswordRoute
   RegisterRoute: typeof RegisterRoute
 }
 
@@ -146,6 +159,13 @@ declare module '@tanstack/react-router' {
       path: '/register'
       fullPath: '/register'
       preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recovery-password': {
+      id: '/recovery-password'
+      path: '/recovery-password'
+      fullPath: '/recovery-password'
+      preLoaderRoute: typeof RecoveryPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -230,6 +250,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckEmailRoute: CheckEmailRoute,
   EmailVerifiedRoute: EmailVerifiedRoute,
   LoginRoute: LoginRoute,
+  RecoveryPasswordRoute: RecoveryPasswordRoute,
   RegisterRoute: RegisterRoute,
 }
 export const routeTree = rootRouteImport

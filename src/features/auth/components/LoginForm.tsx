@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, useSearch } from '@tanstack/react-router'
+import { Link, useNavigate, useSearch } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -116,6 +116,18 @@ export const LoginForm = () => {
                     />
                   </FormControl>
                   <FormMessage />
+                  <div className="flex justify-end mt-1">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        // @ts-ignore Route will be generated
+                        navigate({ to: '/recovery-password', search: { email: form.getValues('email') } })
+                      }}
+                      className="text-xs font-semibold text-[#335D64] hover:text-[#2A4D53] hover:underline bg-transparent border-none p-0 cursor-pointer"
+                    >
+                      ¿Olvidaste tu contraseña?
+                    </button>
+                  </div>
                 </FormItem>
               )}
             />

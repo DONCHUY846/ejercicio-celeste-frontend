@@ -3,6 +3,27 @@ import { loginWithEmail } from '../api/login'
 import { registerWithEmail } from '../api/register'
 import type { LoginCredentials, RegisterCredentials, User } from '../types'
 
+const initialToken =
+  typeof window !== 'undefined' ? localStorage.getItem('token') : null
+const initialUser =
+  typeof window !== 'undefined'
+    ? (JSON.parse(localStorage.getItem('user') ?? 'null') as User | null)
+    : null
+let authSnapshot: { user: User | null; token: string | null } = {
+  user: initialUser,
+  token: initialToken,
+}
+
+export function getAuthSnapshot(): {
+  isAuthenticated: boolean
+  user: User | null
+} {
+  return {
+    isAuthenticated: !!authSnapshot.token,
+    user: authSnapshot.user,
+  }
+}
+
 interface AuthContextType {
   user: User | null
   token: string | null
@@ -23,7 +44,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Check for existing session
     const storedToken =
       typeof window !== 'undefined' ? localStorage.getItem('token') : null
     const storedUser =
@@ -31,7 +51,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     if (storedToken && storedUser) {
       setToken(storedToken)
-      setUser(JSON.parse(storedUser))
+      const parsed = JSON.parse(storedUser) as User
+      setUser(parsed)
+      authSnapshot = { token: storedToken, user: parsed }
     }
     setIsLoading(false)
   }, [])
@@ -41,6 +63,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     setToken(data.access_token)
     setUser(data.user)
+    authSnapshot = { token: data.access_token, user: data.user }
 
     if (typeof window !== 'undefined') {
       localStorage.setItem('token', data.access_token)
@@ -56,6 +79,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const logout = () => {
     setToken(null)
     setUser(null)
+    authSnapshot = { token: null, user: null }
     if (typeof window !== 'undefined') {
       localStorage.removeItem('token')
       localStorage.removeItem('user')

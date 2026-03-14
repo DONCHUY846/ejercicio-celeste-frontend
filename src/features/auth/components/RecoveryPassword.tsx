@@ -3,9 +3,13 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { useNavigate } from '@tanstack/react-router'
-import { Loader2, Mail, Lock } from 'lucide-react'
+import { Loader2, Lock, Mail } from 'lucide-react'
 import { toast } from 'sonner'
 
+import {
+  useSendOtpMutation,
+  useVerifyOtpMutation,
+} from '../hooks/useRecoveryPassword'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -24,8 +28,6 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 
-import { useSendOtpMutation, useVerifyOtpMutation } from '../hooks/useRecoveryPassword'
-
 const formSchema = z.object({
   otp: z
     .string()
@@ -39,11 +41,13 @@ interface RecoveryPasswordProps {
   email?: string
 }
 
-export const RecoveryPassword = ({ email: initialEmail }: RecoveryPasswordProps) => {
+export const RecoveryPassword = ({
+  email: initialEmail,
+}: RecoveryPasswordProps) => {
   const navigate = useNavigate()
   const [email, setEmail] = useState(initialEmail || '')
   const [isOtpSent, setIsOtpSent] = useState(false)
-  
+
   const sendOtpMutation = useSendOtpMutation()
   const verifyOtpMutation = useVerifyOtpMutation()
 
@@ -59,12 +63,12 @@ export const RecoveryPassword = ({ email: initialEmail }: RecoveryPasswordProps)
       toast.error('Por favor ingresa un correo electrónico')
       return
     }
-    
+
     // Simple email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email)) {
-        toast.error('Por favor ingresa un correo electrónico válido')
-        return
+      toast.error('Por favor ingresa un correo electrónico válido')
+      return
     }
 
     try {
@@ -88,11 +92,11 @@ export const RecoveryPassword = ({ email: initialEmail }: RecoveryPasswordProps)
         email,
         otp: values.otp,
       })
-      
+
       toast.success('Contraseña restablecida', {
         description: 'Tu contraseña temporal es: password123',
       })
-      
+
       navigate({ to: '/login' })
     } catch (error: any) {
       toast.error('Error de verificación', {
@@ -112,8 +116,8 @@ export const RecoveryPassword = ({ email: initialEmail }: RecoveryPasswordProps)
             Recuperar Contraseña
           </CardTitle>
           <CardDescription className="text-gray-500">
-            {isOtpSent 
-              ? 'Ingresa el código de 6 dígitos enviado a tu correo' 
+            {isOtpSent
+              ? 'Ingresa el código de 6 dígitos enviado a tu correo'
               : 'Ingresa tu correo para recibir un código de recuperación'}
           </CardDescription>
         </CardHeader>
@@ -125,14 +129,14 @@ export const RecoveryPassword = ({ email: initialEmail }: RecoveryPasswordProps)
                   Email
                 </label>
                 <div className="relative">
-                    <Mail className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
-                    <Input
-                        placeholder="tu@email.com"
-                        className="pl-9 bg-gray-50/30 focus:border-[#335D64] focus:ring-[#335D64]"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        disabled={sendOtpMutation.isPending}
-                    />
+                  <Mail className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+                  <Input
+                    placeholder="tu@email.com"
+                    className="pl-9 bg-gray-50/30 focus:border-[#335D64] focus:ring-[#335D64]"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={sendOtpMutation.isPending}
+                  />
                 </div>
               </div>
               <Button
@@ -150,25 +154,32 @@ export const RecoveryPassword = ({ email: initialEmail }: RecoveryPasswordProps)
                 )}
               </Button>
               <div className="text-center">
-                  <Button variant="link" onClick={() => navigate({ to: '/login' })} className="text-sm text-gray-500 hover:text-[#335D64]">
-                      Volver al inicio de sesión
-                  </Button>
+                <Button
+                  variant="link"
+                  onClick={() => navigate({ to: '/login' })}
+                  className="text-sm text-gray-500 hover:text-[#335D64]"
+                >
+                  Volver al inicio de sesión
+                </Button>
               </div>
             </div>
           ) : (
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-5"
+              >
                 <div className="text-sm text-center text-gray-600 bg-gray-50 p-2 rounded-lg mb-4">
-                    Enviado a: <span className="font-semibold">{email}</span>
-                    <button 
-                        type="button" 
-                        onClick={() => setIsOtpSent(false)} 
-                        className="ml-2 text-xs text-[#335D64] underline hover:text-[#2A4D53]"
-                    >
-                        Cambiar
-                    </button>
+                  Enviado a: <span className="font-semibold">{email}</span>
+                  <button
+                    type="button"
+                    onClick={() => setIsOtpSent(false)}
+                    className="ml-2 text-xs text-[#335D64] underline hover:text-[#2A4D53]"
+                  >
+                    Cambiar
+                  </button>
                 </div>
-                
+
                 <FormField
                   control={form.control}
                   name="otp"
@@ -194,7 +205,7 @@ export const RecoveryPassword = ({ email: initialEmail }: RecoveryPasswordProps)
                     </FormItem>
                   )}
                 />
-                
+
                 <Button
                   type="submit"
                   className="w-full bg-[#335D64] hover:bg-[#2A4D53] text-white font-semibold py-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg"
@@ -209,17 +220,17 @@ export const RecoveryPassword = ({ email: initialEmail }: RecoveryPasswordProps)
                     'Verificar y Restablecer'
                   )}
                 </Button>
-                
+
                 <div className="text-center">
-                    <Button 
-                        type="button" 
-                        variant="ghost" 
-                        onClick={handleSendOtp} 
-                        disabled={sendOtpMutation.isPending}
-                        className="text-sm text-gray-500 hover:text-[#335D64]"
-                    >
-                        ¿No recibiste el código? Reenviar
-                    </Button>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    onClick={handleSendOtp}
+                    disabled={sendOtpMutation.isPending}
+                    className="text-sm text-gray-500 hover:text-[#335D64]"
+                  >
+                    ¿No recibiste el código? Reenviar
+                  </Button>
                 </div>
               </form>
             </Form>

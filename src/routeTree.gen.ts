@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UnauthorizedRouteImport } from './routes/unauthorized'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as RecoveryPasswordRouteImport } from './routes/recovery-password'
 import { Route as LoginRouteImport } from './routes/login'
@@ -18,8 +19,14 @@ import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as ProtectedIndexRouteImport } from './routes/_protected.index'
 import { Route as ProtectedNotificationsIndexRouteImport } from './routes/_protected.notifications.index'
 import { Route as ProtectedEventsIndexRouteImport } from './routes/_protected.events.index'
+import { Route as ProtectedAdminIndexRouteImport } from './routes/_protected.admin.index'
 import { Route as ProtectedEventsEventIdRouteImport } from './routes/_protected.events.$eventId'
 
+const UnauthorizedRoute = UnauthorizedRouteImport.update({
+  id: '/unauthorized',
+  path: '/unauthorized',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
@@ -65,6 +72,11 @@ const ProtectedEventsIndexRoute = ProtectedEventsIndexRouteImport.update({
   path: '/events/',
   getParentRoute: () => ProtectedRoute,
 } as any)
+const ProtectedAdminIndexRoute = ProtectedAdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => ProtectedRoute,
+} as any)
 const ProtectedEventsEventIdRoute = ProtectedEventsEventIdRouteImport.update({
   id: '/events/$eventId',
   path: '/events/$eventId',
@@ -78,7 +90,9 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/recovery-password': typeof RecoveryPasswordRoute
   '/register': typeof RegisterRoute
+  '/unauthorized': typeof UnauthorizedRoute
   '/events/$eventId': typeof ProtectedEventsEventIdRoute
+  '/admin/': typeof ProtectedAdminIndexRoute
   '/events/': typeof ProtectedEventsIndexRoute
   '/notifications/': typeof ProtectedNotificationsIndexRoute
 }
@@ -88,8 +102,10 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/recovery-password': typeof RecoveryPasswordRoute
   '/register': typeof RegisterRoute
+  '/unauthorized': typeof UnauthorizedRoute
   '/': typeof ProtectedIndexRoute
   '/events/$eventId': typeof ProtectedEventsEventIdRoute
+  '/admin': typeof ProtectedAdminIndexRoute
   '/events': typeof ProtectedEventsIndexRoute
   '/notifications': typeof ProtectedNotificationsIndexRoute
 }
@@ -101,8 +117,10 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/recovery-password': typeof RecoveryPasswordRoute
   '/register': typeof RegisterRoute
+  '/unauthorized': typeof UnauthorizedRoute
   '/_protected/': typeof ProtectedIndexRoute
   '/_protected/events/$eventId': typeof ProtectedEventsEventIdRoute
+  '/_protected/admin/': typeof ProtectedAdminIndexRoute
   '/_protected/events/': typeof ProtectedEventsIndexRoute
   '/_protected/notifications/': typeof ProtectedNotificationsIndexRoute
 }
@@ -115,7 +133,9 @@ export interface FileRouteTypes {
     | '/login'
     | '/recovery-password'
     | '/register'
+    | '/unauthorized'
     | '/events/$eventId'
+    | '/admin/'
     | '/events/'
     | '/notifications/'
   fileRoutesByTo: FileRoutesByTo
@@ -125,8 +145,10 @@ export interface FileRouteTypes {
     | '/login'
     | '/recovery-password'
     | '/register'
+    | '/unauthorized'
     | '/'
     | '/events/$eventId'
+    | '/admin'
     | '/events'
     | '/notifications'
   id:
@@ -137,8 +159,10 @@ export interface FileRouteTypes {
     | '/login'
     | '/recovery-password'
     | '/register'
+    | '/unauthorized'
     | '/_protected/'
     | '/_protected/events/$eventId'
+    | '/_protected/admin/'
     | '/_protected/events/'
     | '/_protected/notifications/'
   fileRoutesById: FileRoutesById
@@ -150,10 +174,18 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   RecoveryPasswordRoute: typeof RecoveryPasswordRoute
   RegisterRoute: typeof RegisterRoute
+  UnauthorizedRoute: typeof UnauthorizedRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/unauthorized': {
+      id: '/unauthorized'
+      path: '/unauthorized'
+      fullPath: '/unauthorized'
+      preLoaderRoute: typeof UnauthorizedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/register': {
       id: '/register'
       path: '/register'
@@ -217,6 +249,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedEventsIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/admin/': {
+      id: '/_protected/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof ProtectedAdminIndexRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
     '/_protected/events/$eventId': {
       id: '/_protected/events/$eventId'
       path: '/events/$eventId'
@@ -230,6 +269,7 @@ declare module '@tanstack/react-router' {
 interface ProtectedRouteChildren {
   ProtectedIndexRoute: typeof ProtectedIndexRoute
   ProtectedEventsEventIdRoute: typeof ProtectedEventsEventIdRoute
+  ProtectedAdminIndexRoute: typeof ProtectedAdminIndexRoute
   ProtectedEventsIndexRoute: typeof ProtectedEventsIndexRoute
   ProtectedNotificationsIndexRoute: typeof ProtectedNotificationsIndexRoute
 }
@@ -237,6 +277,7 @@ interface ProtectedRouteChildren {
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedIndexRoute: ProtectedIndexRoute,
   ProtectedEventsEventIdRoute: ProtectedEventsEventIdRoute,
+  ProtectedAdminIndexRoute: ProtectedAdminIndexRoute,
   ProtectedEventsIndexRoute: ProtectedEventsIndexRoute,
   ProtectedNotificationsIndexRoute: ProtectedNotificationsIndexRoute,
 }
@@ -252,6 +293,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   RecoveryPasswordRoute: RecoveryPasswordRoute,
   RegisterRoute: RegisterRoute,
+  UnauthorizedRoute: UnauthorizedRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

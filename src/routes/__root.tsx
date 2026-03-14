@@ -11,6 +11,7 @@ import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 import appCss from '../assets/styles.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
+import type { User } from '@/features/auth/types'
 import { getLocale } from '@/paraglide/runtime'
 import { AuthProvider } from '@/features/auth/context/auth-context'
 import { Toaster } from '@/components/ui/sonner'
@@ -18,6 +19,7 @@ import { NotificationListener } from '@/features/notifications/components/Notifi
 
 interface MyRouterContext {
   queryClient: QueryClient
+  getAuthSnapshot: () => { isAuthenticated: boolean; user: User | null }
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({

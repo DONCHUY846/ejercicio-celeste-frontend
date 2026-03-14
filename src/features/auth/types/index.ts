@@ -3,6 +3,7 @@ export interface User {
   id_persona: number
   email: string
   admin: boolean
+  rol_id: number
   persona?: {
     id: number
     nombre: string

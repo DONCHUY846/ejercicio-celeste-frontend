@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
-import { sendOtp, verifyOtp, type SendOtpPayload, type VerifyOtpPayload } from '../api/recovery'
+import { sendOtp, verifyOtp } from '../api/recovery'
+import type { SendOtpPayload, VerifyOtpPayload } from '../api/recovery'
 
 export const useSendOtpMutation = () => {
   return useMutation({

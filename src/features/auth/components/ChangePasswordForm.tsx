@@ -27,11 +27,9 @@ const formSchema = z
     current_password: z
       .string()
       .min(1, { message: 'La contraseña actual es requerida' }),
-    new_password: z
-      .string()
-      .min(8, {
-        message: 'La nueva contraseña debe tener al menos 8 caracteres',
-      }),
+    new_password: z.string().min(8, {
+      message: 'La nueva contraseña debe tener al menos 8 caracteres',
+    }),
     new_password_confirmation: z
       .string()
       .min(1, { message: 'La confirmación es requerida' }),

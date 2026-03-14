@@ -9,14 +9,18 @@ export type VerifyOtpPayload = {
   otp: string
 }
 
-export const sendOtp = async (data: SendOtpPayload): Promise<{ message: string }> => {
+export const sendOtp = async (
+  data: SendOtpPayload,
+): Promise<{ message: string }> => {
   return api('/auth/forgot-password', {
     method: 'POST',
     body: JSON.stringify(data),
   })
 }
 
-export const verifyOtp = async (data: VerifyOtpPayload): Promise<{ message: string }> => {
+export const verifyOtp = async (
+  data: VerifyOtpPayload,
+): Promise<{ message: string }> => {
   return api('/auth/verify-otp-reset', {
     method: 'POST',
     body: JSON.stringify(data),

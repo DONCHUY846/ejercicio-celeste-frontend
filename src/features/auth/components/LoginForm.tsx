@@ -121,7 +121,10 @@ export const LoginForm = () => {
                       type="button"
                       onClick={() => {
                         // @ts-ignore Route will be generated
-                        navigate({ to: '/recovery-password', search: { email: form.getValues('email') } })
+                        navigate({
+                          to: '/recovery-password',
+                          search: { email: form.getValues('email') },
+                        })
                       }}
                       className="text-xs font-semibold text-[#335D64] hover:text-[#2A4D53] hover:underline bg-transparent border-none p-0 cursor-pointer"
                     >

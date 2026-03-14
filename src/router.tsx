@@ -6,6 +6,7 @@ import { deLocalizeUrl, localizeUrl } from './paraglide/runtime'
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
+import { getAuthSnapshot } from '@/features/auth/context/auth-context'
 
 // Create a new router instance
 export const getRouter = () => {
@@ -15,6 +16,7 @@ export const getRouter = () => {
     routeTree,
     context: {
       ...rqContext,
+      getAuthSnapshot,
     },
 
     // Paraglide URL rewrite docs: https://github.com/TanStack/router/tree/main/examples/react/i18n-paraglide#rewrite-url
